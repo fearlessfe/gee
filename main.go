@@ -1,21 +1,27 @@
 package main
 
 import (
-	"fmt"
 	"gee/gee"
+	"net/http"
 )
 
 func main() {
 	r := gee.New()
-	r.GET("/", func(c *gee.Context) {
-		fmt.Fprintf(c.Writer, "URL.Path = %q\n", c.Path)
+
+	r.GET("/index", func(context *gee.Context) {
+		context.HTML(http.StatusOK, "<h1>Index Page</h1>")
 	})
 
-	r.GET("/hello", func(c *gee.Context) {
-		for k, v := range c.Req.Header {
-			fmt.Fprintf(c.Writer, "Header[%q] = %q\n", k, v)
-		}
-	})
+	v1 := r.Group("v1")
+	{
+		v1.GET("/", func(context *gee.Context) {
+			context.HTML(http.StatusOK, "<h1>Index Gee v1</h1>")
+		})
+
+		v1.GET("/helo", func(context *gee.Context) {
+			context.HTML(http.StatusOK, "<h1>Index Gee v1</h1>")
+		})
+	}
 
 	r.Run(":9999")
 }

@@ -31,6 +31,7 @@ func parsePattern(pattern string) []string {
 	return parts
 }
 
+
 func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
 	log.Printf("addRoute %4s - %s", method, pattern)
 	parts := parsePattern(pattern)
